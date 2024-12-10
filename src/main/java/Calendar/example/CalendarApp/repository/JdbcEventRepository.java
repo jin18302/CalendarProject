@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +48,28 @@ public class JdbcEventRepository implements EventRepository {
     }
 
     @Override
-    public  List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDateTime day) {
-        List<EventResponse> Events = template.query("SELECT* FROM events WHERE name=? AND CreationDate =?", eventRowMapper(),name,day);
+    public  List<ResponseEntity<EventResponse>> findAllEvent(String name, String day) {
+       List parameter = new ArrayList();
+        StringBuilder sql = new StringBuilder("SELECT* FROM events WHERE 0=0");
+
+        if (name != null ){
+        sql.append(" AND name =?");
+        parameter.add(name);
+        }else {
+            sql.append(" AND name IS NULL");
+        }
+
+        if(day != null){
+            sql.append(" AND DATE(CreationDate) = ?");
+            parameter.add(day);
+        }else {
+            sql.append(" AND CreationDate IS NULL");
+        }
+
+
+        List<EventResponse> Events = template.query(sql.toString(), eventRowMapper(),name,day);
+
+
         List<ResponseEntity<EventResponse>> allEvents = Events.stream().map(event -> ResponseEntity.status(HttpStatus.OK).body(event)).toList();
         return allEvents;
     }

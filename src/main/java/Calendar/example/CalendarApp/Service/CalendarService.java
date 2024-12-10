@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,11 +33,7 @@ public class CalendarService {
     }
 
     public List<ResponseEntity<EventResponse>> findEvent(String name, String day){
-        LocalDateTime date=null;
-        if(day != null){
-            date=LocalDateTime.parse(day);
-        }
-        return eventRepository.findAllEvent(name, date);
+        return eventRepository.findAllEvent(name, day);
     }
 
     public EventResponse findByIdEvent(Long id){
