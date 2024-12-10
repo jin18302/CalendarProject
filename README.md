@@ -25,6 +25,9 @@ id가 일치하는 데이터 삭제</br>
 </br>
 </br>
 
+# ERD
+![erd](https://github.com/user-attachments/assets/f094dbdc-cc4f-4dcc-b23e-b0567977b73c)
+
 
 
 # API명세서
