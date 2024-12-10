@@ -13,22 +13,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/calendar")
 public class EventApiController {
-   CalendarService service;
+    CalendarService service;
 
-   public EventApiController(CalendarService service){
-       this.service=service;
-   }
+    public EventApiController(CalendarService service) {
+        this.service = service;
+    }
 
-    @PostMapping//0
+    @PostMapping
     public ResponseEntity<EventResponse> saveEvent(@RequestBody EventRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveEvent(request));
     }
 
-    @GetMapping({"/{name}", "/{name}/{day}", "/{day}"})
-    public List <ResponseEntity<EventResponse>> findAllEvent(@PathVariable(value = "name", required = false) String name,
-                                                             @PathVariable(value = "day", required = false)String day) {
-        return service.findEvent(name,day);
+    @GetMapping({"/all/{name}/{day}","/all","/all/{name}","/all//{day}"})
+    public List<ResponseEntity<EventResponse>> findEventByday(@PathVariable(value = "name",required = false) String name,
+                                                              @PathVariable(value = "day",required = false) String day) {
+        return service.findEvent(name, day);
     }
+
 
     @GetMapping("/{id}")//0
     public ResponseEntity<EventResponse> findByEvent(@PathVariable("id") Long id) {

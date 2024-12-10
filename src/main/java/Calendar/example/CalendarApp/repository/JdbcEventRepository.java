@@ -2,6 +2,7 @@ package Calendar.example.CalendarApp.repository;
 
 import Calendar.example.CalendarApp.Dto.EventResponse;
 import Calendar.example.CalendarApp.Entity.Event;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,26 +49,26 @@ public class JdbcEventRepository implements EventRepository {
     }
 
     @Override
-    public  List<ResponseEntity<EventResponse>> findAllEvent(String name, String day) {
+    public  List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDate day) {
        List parameter = new ArrayList();
         StringBuilder sql = new StringBuilder("SELECT* FROM events WHERE 0=0");
 
         if (name != null ){
-        sql.append(" AND name =?");
+        sql.append(" AND name = ?");
         parameter.add(name);
-        }else {
-            sql.append(" AND name IS NULL");
         }
 
         if(day != null){
             sql.append(" AND DATE(CreationDate) = ?");
             parameter.add(day);
-        }else {
-            sql.append(" AND CreationDate IS NULL");
         }
 
+        System.out.println("SQL Query: " + sql);
+        System.out.println("Parameters: " + parameter);
 
-        List<EventResponse> Events = template.query(sql.toString(), eventRowMapper(),name,day);
+
+        List<EventResponse> Events = template.query(sql.toString(), eventRowMapper(),parameter.toArray());
+
 
 
         List<ResponseEntity<EventResponse>> allEvents = Events.stream().map(event -> ResponseEntity.status(HttpStatus.OK).body(event)).toList();

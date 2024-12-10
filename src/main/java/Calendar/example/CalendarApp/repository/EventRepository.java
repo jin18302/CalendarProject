@@ -11,7 +11,7 @@ import java.util.List;
 public interface EventRepository {
     EventResponse saveEvent(Event event);
 
-    List<ResponseEntity<EventResponse>> findAllEvent(String name, String day);
+    List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDate day);
 
     EventResponse findByIdEvent(Long id);
 
