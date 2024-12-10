@@ -54,7 +54,7 @@ public class CalendarService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"not found id:"+id);
         }
 
-        if(event.getPassword() != request.getPassword()){
+        if(event.getPassword().equals(request.getPassword())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
         }
         return new EventResponse(eventRepository.update(id, request.getName(), request.getText()));
@@ -67,7 +67,7 @@ public class CalendarService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"not found id:"+id);
         }
 
-        if(event.getPassword() != request.getPassword()){
+        if(event.getPassword().equals(request.getPassword())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
         }
         eventRepository.delete(id);
