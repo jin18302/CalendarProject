@@ -1,7 +1,7 @@
 package Calendar.example.CalendarApp.repository;
 
 import Calendar.example.CalendarApp.Dto.EventResponse;
-import Calendar.example.CalendarApp.Event;
+import Calendar.example.CalendarApp.Entity.Event;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +46,8 @@ public class JdbcEventRepository implements EventRepository {
     }
 
     @Override
-    public  List<ResponseEntity<EventResponse>> findAllEvent() {
-        List<EventResponse> Events = template.query("SELECT* FROM events", eventRowMapper());
+    public  List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDateTime day) {
+        List<EventResponse> Events = template.query("SELECT* FROM events WHERE name=? AND CreationDate =?", eventRowMapper(),name,day);
         List<ResponseEntity<EventResponse>> allEvents = Events.stream().map(event -> ResponseEntity.status(HttpStatus.OK).body(event)).toList();
         return allEvents;
     }

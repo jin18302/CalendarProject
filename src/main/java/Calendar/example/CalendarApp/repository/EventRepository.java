@@ -1,16 +1,16 @@
 package Calendar.example.CalendarApp.repository;
 
 import Calendar.example.CalendarApp.Dto.EventResponse;
-import Calendar.example.CalendarApp.Event;
+import Calendar.example.CalendarApp.Entity.Event;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository {
     EventResponse saveEvent(Event event);
 
-    List<ResponseEntity<EventResponse>> findAllEvent();
+    List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDateTime day );
 
     EventResponse findByIdEvent(Long id);
 

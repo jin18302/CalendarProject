@@ -1,4 +1,4 @@
-package Calendar.example.CalendarApp;
+package Calendar.example.CalendarApp.Entity;
 
 
 import Calendar.example.CalendarApp.Dto.EventRequest;

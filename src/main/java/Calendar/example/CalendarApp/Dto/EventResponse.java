@@ -1,6 +1,5 @@
 package Calendar.example.CalendarApp.Dto;
 
-import Calendar.example.CalendarApp.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

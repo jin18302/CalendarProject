@@ -13,17 +13,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/calendar")
 public class EventApiController {
-    @Autowired
-    CalendarService service;
+   CalendarService service;
+
+   public EventApiController(CalendarService service){
+       this.service=service;
+   }
 
     @PostMapping//0
     public ResponseEntity<EventResponse> saveEvent(@RequestBody EventRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveEvent(request));
     }
 
-    @GetMapping//0
-    public List <ResponseEntity<EventResponse>> findAllEvent() {
-        return service.finalAllEvent();
+    @GetMapping({"/{name}", "/{name}/{day}", "/{day}"})
+    public List <ResponseEntity<EventResponse>> findAllEvent(@PathVariable(value = "name", required = false) String name,
+                                                             @PathVariable(value = "day", required = false)String day) {
+        return service.findEvent(name,day);
     }
 
     @GetMapping("/{id}")//0
@@ -41,4 +45,5 @@ public class EventApiController {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
