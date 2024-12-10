@@ -25,9 +25,9 @@ public class EventApiController {
     }
 
     @GetMapping({"/all/{name}/{day}","/all","/all/{name}","/all//{day}"})
-    public List<ResponseEntity<EventResponse>> findEventByday(@PathVariable(value = "name",required = false) String name,
+    public List<ResponseEntity<EventResponse>> findAllEvent(@PathVariable(value = "name",required = false) String name,
                                                               @PathVariable(value = "day",required = false) String day) {
-        return service.findEvent(name, day);
+        return service.findAllEvent(name, day);
     }
 
 

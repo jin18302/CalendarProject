@@ -32,7 +32,7 @@ public class CalendarService {
         return eventRepository.saveEvent(event);
     }
 
-    public List<ResponseEntity<EventResponse>> findEvent(String name, String day){
+    public List<ResponseEntity<EventResponse>> findAllEvent(String name, String day){
         LocalDate date = null;
         if(day != null){
             date=LocalDate.parse(day);
