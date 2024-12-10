@@ -30,7 +30,7 @@ public class JdbcEventRepository implements EventRepository {
     }
 
     @Override
-    public EventResponse saveEvent(Event event) {
+    public Event saveEvent(Event event) {
             SimpleJdbcInsert insert = new SimpleJdbcInsert(template);
             insert.withTableName("events").usingGeneratedKeyColumns("id");
 
@@ -63,9 +63,6 @@ public class JdbcEventRepository implements EventRepository {
             parameter.add(day);
         }
 
-        System.out.println("SQL Query: " + sql);
-        System.out.println("Parameters: " + parameter);
-
 
         List<EventResponse> Events = template.query(sql.toString(), eventRowMapper(),parameter.toArray());
 
@@ -76,13 +73,13 @@ public class JdbcEventRepository implements EventRepository {
     }
 
     @Override
-    public EventResponse findByIdEvent(Long id) {
-        EventResponse event = template.queryForObject("SELECT* FROM events WHERE id=?", eventRowMapper(), id);
+    public Event findByIdEvent(Long id) {
+        Event event = template.queryForObject("SELECT* FROM events WHERE id=?", eventRowMapper2(), id);
         return event;
     }
 
     @Override
-    public EventResponse update(Long id, String name, String text) {
+    public Event update(Long id, String name, String text) {
         template.update("UPDATE events SET name = ?, ModificationDate = ?, text = ?  WHERE id=?", name, LocalDateTime.now(), text,id);
         return findByIdEvent(id);
     }
@@ -100,6 +97,22 @@ public class JdbcEventRepository implements EventRepository {
                 return new EventResponse(
                         rs.getLong("id"),
                         rs.getString("name"),
+                        rs.getString("text"),
+                        rs.getString("CreationDate"),
+                        rs.getString("ModificationDate")
+                );
+            }
+        };
+    }
+
+    private RowMapper<Event> eventRowMapper2(){
+        return new RowMapper<Event>() {
+            @Override
+            public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Event(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
                         rs.getString("text"),
                         rs.getString("CreationDate"),
                         rs.getString("ModificationDate")

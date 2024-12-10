@@ -29,7 +29,7 @@ public class CalendarService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"null exists in request value");
         }
 
-        return eventRepository.saveEvent(event);
+        return new EventResponse(eventRepository.saveEvent(event));
     }
 
     public List<ResponseEntity<EventResponse>> findAllEvent(String name, String day){
@@ -41,26 +41,34 @@ public class CalendarService {
     }
 
     public EventResponse findByIdEvent(Long id){
-       EventResponse event = eventRepository.findByIdEvent(id);
+       Event event = eventRepository.findByIdEvent(id);
        if(event == null){
            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"not found id:"+id);
        }
-        return  eventRepository.findByIdEvent(id);
+        return new EventResponse(eventRepository.findByIdEvent(id));
     }
 
     public EventResponse update(Long id, EventRequest request){
-        EventResponse event = eventRepository.findByIdEvent(id);
+        Event event = eventRepository.findByIdEvent(id);
         if(event == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"not found id:"+id);
         }
 
-        return eventRepository.update(id, request.getName(), request.getText());
+        if(event.getPassword() != request.getPassword()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
+        }
+        return new EventResponse(eventRepository.update(id, request.getName(), request.getText()));
+
     }
 
-    public void delete(Long id){
-        EventResponse event = eventRepository.findByIdEvent(id);
+    public void delete(Long id, EventRequest request){
+        Event event = eventRepository.findByIdEvent(id);
         if(event == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"not found id:"+id);
+        }
+
+        if(event.getPassword() != request.getPassword()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
         }
         eventRepository.delete(id);
     }

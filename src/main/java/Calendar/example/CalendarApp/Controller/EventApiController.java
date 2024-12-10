@@ -42,8 +42,8 @@ public class EventApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        service.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id,@RequestBody EventRequest request) {
+        service.delete(id,request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -2,10 +2,11 @@ package Calendar.example.CalendarApp.Entity;
 
 
 import Calendar.example.CalendarApp.Dto.EventRequest;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
-
 public class Event {
     private long id;
     private String name;

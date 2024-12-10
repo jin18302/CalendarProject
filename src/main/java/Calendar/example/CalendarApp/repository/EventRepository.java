@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository {
-    EventResponse saveEvent(Event event);
+    Event saveEvent(Event event);
 
     List<ResponseEntity<EventResponse>> findAllEvent(String name, LocalDate day);
 
-    EventResponse findByIdEvent(Long id);
+    Event findByIdEvent(Long id);
 
-    EventResponse update(Long id, String name, String text);
+    Event update(Long id, String name, String text);
 
     void delete(Long id);
 }
