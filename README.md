@@ -26,7 +26,7 @@ id가 일치하는 데이터 삭제</br>
 </br>
 
 # ERD
-![erd](https://github.com/user-attachments/assets/3c75e221-600a-4b1e-a206-e6bb24b9dfce)
+![erd](https://github.com/user-attachments/assets/c29c8381-28f6-42ae-964e-775235d997b5)
 </br>
 </br>
 </br>
